@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html ng-app="appMeuolhar">
+  <head>
+    <meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Meu olhar</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
+
+
+    <link href='https://fonts.googleapis.com/css?family=Londrina+Solid' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:500,300,400,700' rel='stylesheet' type='text/css'>
+		<!-- Meu controller -->
+	<script src="js/controller.js"></script>
+
+    <link rel='stylesheet prefetch' href='http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css'>
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+	<script src='http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js'></script>
+    <link rel="stylesheet" href="css/style.css">
+    
+  </head>
+
+  <body>
+
+	<nav class="navbar navbar-default nav-transparency" role="navigation">
+	  <div class="container-fluid">
+	    <!-- Brand and toggle get grouped for better mobile display -->
+	    <div class="navbar-header visible-xs">
+	      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+	        <span class="sr-only">Toggle navigation</span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	      </button>
+	      <a class="navbar-brand" href="#">Meu Olhar</a>
+	    </div>
+
+	    <!-- Collect the nav links, forms, and other content for toggling -->
+	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+	      <ul class="nav navbar-nav">
+	        <li><a href="#">COMO FUNCIONA</a></li>
+	        <li class="active"><a href="#">GALERIA</a></li>
+	        <li><a href="#">REGULAMENTO</a></li>
+
+	        <!--
+			PARTE DO USUÁRIO
+
+	        <li class="social pull-right"><a href="#"><img src="https://scontent-gru2-1.xx.fbcdn.net/v/t1.0-9/10665058_693202724089887_6386121323748717293_n.jpg?oh=15efbfc4ee0a5fc8c01b57405baa86c0&oe=579A83A3" class="img-responsive img-circle" alt="Cinque Terre" style="margin-left: -20px;margin-top: -9px; width: 40px !important; height: 40px !important"></a></li>
+	        <li class="social pull-right"><a href="#">Olá, Renê</a></li>-->
+
+
+	      </ul>
+	    </div><!-- /.navbar-collapse -->
+	  </div><!-- /.container-fluid -->
+	</nav>
+
+<div class = "container" ng-controller="meuolharCtrl">
+	<div class="row ">
+		
+		<div class="col-xs-12 col-sm-12 ">
+
+			<img class="img-responsive image-float" src="img/logo.png" width="100%" height="auto"/>
+		</div>
+	</div>
+
+
+	<div class="row">
+		<div class="midia-bar col-xs-12 col-sm-12 text-center galery control-group">
+			<label class="recent-video-label control-label">MÍDIA MAIS RECENTES</label>
+		</div>
+	</div>
+
+
+	<div class="row media-galery shadow-div">
+		<div class="col-xs-12 col-sm-6 col-md-3 video-aling" ng-repeat="publication in listPublications.references">
+			<div class="row">
+				<div class="col-xs-12 col-sm-12">
+					<div ng-switch="publication.mediaType"> 
+				    		<img ng-switch-when="image" ng-src="{{publication.mediaLink}}" alt="ERRO" width="100%" height="auto">  
+				    		<iframe ng-switch-when="youtube" class="embed-responsive-item" width="100%" height="auto" ng-src="{{trustYoutube(publication.mediaLink)}}" frameborder="0" allowfullscreen="" ></iframe>
+				    		<iframe ng-switch-when="video" class="embed-responsive-item" width="100%" height="auto" ng-src="{{publication.mediaLink}}" frameborder="0" allowfullscreen=""></iframe>
+							<iframe ng-switch-when="vimeo" class="embed-responsive-item" width="100%" height="auto" ng-src="{{trustVimeo(publication.mediaLink)}}" frameborder="0" allowfullscreen="" ></iframe>	
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-9 col-sm-9 pull-left">
+					<div class="row">
+						<div class="col-xs-3 col-sm-3" style="width: 60px;height: 30px;">
+							<img src="https://scontent-gru2-1.xx.fbcdn.net/v/t1.0-9/10665058_693202724089887_6386121323748717293_n.jpg?oh=15efbfc4ee0a5fc8c01b57405baa86c0&oe=579A83A3" class="img-responsive img-circle pull-left" alt="Cinque Terre" style="width: 100% !important; height: 100% !important; ">
+						</div>
+						<div class="col-xs-9 col-sm-9 " style="height: 40px;  margin-left: -20px;">
+							<div class="row">
+								<div class="col-xs-12 col-sm-12">
+									<label class="pull-left name-user-video">{{publication.author}}</label>
+								</div>
+								<div class="col-xs-12 col-sm-12">
+									<label class="pull-left name-local-video" style="margin-top: -6px;">João Pessoa - PB</label>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-3 col-sm-3 pull-right">
+					<label class="pull-right vote-label"style="font-size: 18px;"> <span class="star-collor glyphicon glyphicon-star"></span> {{publication.voteCount}}</label>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row ">
+		<div class="midia-bar col-xs-12 col-sm-12 text-center shadow-div ">
+			<button class="myButton" ng-click = "viewMore()" > VER MAIS </button>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-12 col-sm-12 top-video">
+			<div class="row">
+				<div class="col-sm-3 hidden-xs">
+					<hr size="50" width="100%">
+				</div> 
+				<div class="col-xs-2 col-sm-1">
+					<img src="img/trofeu.png " width="30px">
+				</div>
+				<div class="col-xs-5 col-sm-3" style="margin-top: 7px;" >
+					<label class="mais-botado-label">OS MAIS VOTADOS</label>
+				</div>
+				<div class="col-xs-5 col-sm-2">
+				  	<button style="width: 100%;" class="btn btn-primary dropdown-toggle bnt-drop dropdonw-text" type="button" data-toggle="dropdown">{{dropdown.atual}}
+				    <span class="caret"></span></button>
+				    <ul class="dropdown-menu">
+				      <li><a href="" ng-click = "setFilter(1)">DO DIA</a></li>
+				      <li><a href="" ng-click = "setFilter(2)">DA SEMANA</a></li>
+				      <li><a href="" ng-click = "setFilter(0)">DO MÊS</a></li>
+				    </ul>
+				</div>
+				<div class="col-sm-3 hidden-xs">
+					<hr size="10" width="100%">
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row media-galery2 top-video2 " >
+
+
+		<div class="col-xs-12 col-sm-4 col-md-4 video-aling" ng-repeat="publication in listPublicationsFilter.references">
+			<div class="row">
+				<div class="col-xs-12 col-sm-12">
+					<div ng-switch="publication.mediaType"> 
+				    		<img ng-switch-when="image" ng-src="{{publication.mediaLink}}" alt="ERRO" width="100%" height="auto">  
+				    		<iframe ng-switch-when="youtube" class="embed-responsive-item" width="100%" height="auto" ng-src="{{trustYoutube(publication.mediaLink)}}" frameborder="0" allowfullscreen="" ></iframe>
+				    		<iframe ng-switch-when="video" class="embed-responsive-item" width="100%" height="auto" ng-src="{{publication.mediaLink}}" frameborder="0" allowfullscreen=""></iframe>
+							<iframe ng-switch-when="vimeo" class="embed-responsive-item" width="100%" height="auto" ng-src="{{trustVimeo(publication.mediaLink)}}" frameborder="0" allowfullscreen="" ></iframe>	
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-9 col-sm-9 pull-left">
+					<div class="row">
+						<div class="col-xs-3 col-sm-3" style="width: 60px;height: 30px;">
+							<img src="https://scontent-gru2-1.xx.fbcdn.net/v/t1.0-9/10665058_693202724089887_6386121323748717293_n.jpg?oh=15efbfc4ee0a5fc8c01b57405baa86c0&oe=579A83A3" class="img-responsive img-circle pull-left" alt="Cinque Terre" style="width: 100% !important; height: 100% !important; ">
+						</div>
+						<div class="col-xs-9 col-sm-9 " style="height: 40px;  margin-left: -20px;">
+							<div class="row">
+								<div class="col-xs-12 col-sm-12">
+									<label class="pull-left name-user-video2">{{publication.author}}</label>
+								</div>
+								<div class="col-xs-12 col-sm-12">
+									<label class="pull-left name-local-video2" style="margin-top: -6px;">João Pessoa - PB</label>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+				<div class="col-xs-3 col-sm-3 pull-right">
+					<label class="pull-right vote-label2"style="font-size: 18px;"> <span class="star-collor glyphicon glyphicon-star"></span> {{publication.voteCount}}</label>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+
+	<div class="row top-video">
+		<div class="col-xs-12 col-sm-8 col-md-8">
+			<img src="img/torcida.png" height="auto" width="100%" class="img-responsive" alt="Cinque Terre">
+		</div>
+		<div class="col-xs-12 col-sm-4 col-md-4 img-correcao">
+			<img src="img/ligago_olimpiada.png" height="auto" width="100%" class="img-responsive" alt="Cinque Terre">
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-12 col-sm-4 col-md-4">
+			<img src="img/passou_na_tv.png" height="auto" width="100%" class="img-responsive" alt="Cinque Terre">
+		</div>
+		<div class="col-xs-12 col-sm-8 col-md-8">
+			<img src="img/ideia.png" height="auto" width="100%" class="img-responsive" alt="Cinque Terre">
+		</div>
+	</div>
+</div>
+
+<footer class="footer">
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12 col-sm-2 col-md-2">
+				<img src="img/meuolhar.png" height="auto" width="100%" class="img-responsive" alt="Cinque Terre">
+			</div>
+			<div class="hidden-xs col-sm-6 col-md-6 text-nav-footer" >
+				<ul class="nav navbar-nav">
+			        <li class="active"><a href="#">COMO FUNCIONA</a></li>
+			        <li><a href="#">GALERIA</a></li>
+			        <li><a href="#">REGULAMENTO</a></li>
+			    </ul>
+			</div>
+			<div class="col-xs-12 col-sm-4 col-md-4">
+				<ul style="list-style-type: none;">
+					<li class="pull-right pull-right-ajust"><a href="#"><img src="img/vimeo.png" class="img-responsive img-circle" alt="Cinque Terre" style="width: 40px !important; height: 40px !important"></a></li>
+					<li class="pull-right pull-right-ajust"><a href="#"><img src="img/twitter.png" class="img-responsive img-circle" alt="Cinque Terre" style="width: 40px !important; height: 40px !important"></a></li>
+					<li class="pull-right pull-right-ajust"><a href="#"><img src="img/facebook.png" class="img-responsive img-circle" alt="Cinque Terre" style="width: 40px !important; height: 40px !important"></a></li>
+					<li class="pull-right pull-right-ajust"><a href="#"><img src="img/instagram.png" class="img-responsive img-circle" alt="Cinque Terre" style="width: 40px !important; height: 40px !important"></a></li>
+					<li class="pull-right pull-right-ajust"><a href="#"><img src="img/youtube.png" class="img-responsive img-circle" alt="Cinque Terre" style="width: 40px !important; height: 40px !important"></a></li>
+				</ul>
+				</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12 col-sm-6 col-md-6">
+				<p class="text-footer-300 text-center-footer">Criado pelo <a href="http://lavid.ufpb.br/" title="Laboratório de Aplicações de Vídeo Digital" class="text-footer-500">LAVID</a> na <a href="http://www.ufpb.br" class="text-footer-500">Universidade Federal da Paraíba</a></p>
+			</div>
+		</div>
+	</div>
+</footer>
+  </body>
+</html>
