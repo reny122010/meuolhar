@@ -7,8 +7,9 @@ appMeuolhar.controller("meuolharCtrl", ['$scope', '$http', '$sce',function($scop
 		refereceRoute : "/api/v1/reference/"
 	};
 
-	var limitDefault = 8, pageDefault = 0;
+	var pageDefault = 0;
 
+	$scope.limitDefault = 8;
 
 	$scope.dropdown = { atual:"DA SEMANA", date:"thisWeek" };
 
@@ -45,7 +46,7 @@ appMeuolhar.controller("meuolharCtrl", ['$scope', '$http', '$sce',function($scop
     	params["order"] = filter.order;
 
     	$http.get(url, { headers: headers, params}).success(function(response){
-	        console.log(response);
+	        
 	        switch (list){
 	        	case 0: 
 	        		$scope.listPublications =  response;
@@ -54,23 +55,41 @@ appMeuolhar.controller("meuolharCtrl", ['$scope', '$http', '$sce',function($scop
 	        		$scope.listPublicationsFilter = response;
 	        		break;
 	        	default:
-	        		console.log("Falied switch to list");
+	        		
 	        }
 	    });	
     }
 
 	var recentMidias = function(){
-		getReference({ order:"dateDesc", date:undefined, page:pageDefault, limit:limitDefault, mediaType:"video" }, 0);
+		getReference({ order:"dateDesc", date:undefined, page:pageDefault, limit:25, mediaType:"video" }, 0);
     };
 
     var recentFilter = function(){
     	getReference({ order:"dateDesc", date:$scope.dropdown.date, limit:3, mediaType:"video" }, 1);
     };
 
+  $scope.displayLocation =  function (latitude,longitude){
+        var request = new XMLHttpRequest();
+
+        var method = 'GET';
+        var url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng='+latitude+','+longitude+'&sensor=true';
+        var async = true;
+
+        request.open(method, url, async);
+        request.onreadystatechange = function(){
+          if(request.readyState == 4 && request.status == 200){
+            var data = JSON.parse(request.responseText);
+            var address = data.results[0];
+            
+           	return address.formatted_address;
+          }
+        };
+        request.send();
+      };
+
+
     $scope.viewMore = function(){
-    	limitDefault +=8;
-		recentMidias();
-		
+    	$scope.limitDefault +=8;
     }
 
     $scope.trustYoutube = function(src) {

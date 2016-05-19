@@ -12,6 +12,7 @@
     <link href='https://fonts.googleapis.com/css?family=Londrina+Solid' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Roboto:500,300,400,700' rel='stylesheet' type='text/css'>
 		<!-- Meu controller -->
+		<script src="https://maps.googleapis.com/maps/api/js"async defer></script>
 	<script src="js/controller.js"></script>
 
     <link rel='stylesheet prefetch' href='http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css'>
@@ -19,6 +20,17 @@
 	<script src='http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js'></script>
     <link rel="stylesheet" href="css/style.css">
     
+    <script type="text/javascript">
+    	var array = ["#logo1", "#logo3"], i=0;
+
+    	 setInterval(function(){
+    	 	$(array[i]).fadeIn("slow").delay(4000).fadeOut("fast").delay(4000); 
+    	 	i++;
+    	 	if(i == 3){
+    	 		i = 0;
+    	 	}
+    	 },8000);
+    </script>
   </head>
 
   <body>
@@ -59,8 +71,17 @@
 	<div class="row ">
 		
 		<div class="col-xs-12 col-sm-12 ">
-
-			<img class="img-responsive image-float" src="img/logo.png" width="100%" height="auto"/>
+			<div class="col-xs-6 col-sm-6 " >	
+				<img class="img-responsive image-float" src="img/logo1.png" width="100%" height="auto"/>
+			</div>
+			<div class="col-xs-6 col-sm-6 " id="div_logo" >	
+				<div id="logo1">
+					<img  class="img-responsive image-float" src="img/logo2.png" width="100%" height="auto"/>
+				</div>
+				<div id="logo3" style="display: none">
+					<img  class="img-responsive image-float" src="img/logo4.png" width="100%" height="auto"/>
+				</div>
+			</div>			
 		</div>
 	</div>
 
@@ -73,7 +94,7 @@
 
 
 	<div class="row media-galery shadow-div">
-		<div class="col-xs-12 col-sm-6 col-md-3 video-aling" ng-repeat="publication in listPublications.references">
+		<div class="col-xs-12 col-sm-6 col-md-3 video-aling" ng-repeat="publication in listPublications.references | limitTo:limitDefault">
 			<div class="row">
 				<div class="col-xs-12 col-sm-12">
 					<div ng-switch="publication.mediaType"> 
@@ -88,7 +109,7 @@
 				<div class="col-xs-9 col-sm-9 pull-left">
 					<div class="row">
 						<div class="col-xs-3 col-sm-3" style="width: 60px;height: 30px;">
-							<img src="https://scontent-gru2-1.xx.fbcdn.net/v/t1.0-9/10665058_693202724089887_6386121323748717293_n.jpg?oh=15efbfc4ee0a5fc8c01b57405baa86c0&oe=579A83A3" class="img-responsive img-circle pull-left" alt="Cinque Terre" style="width: 100% !important; height: 100% !important; ">
+							<img ng-src={{publication.authorPic}} class="img-responsive img-circle pull-left" alt="Cinque Terre" style="width: 100% !important; height: 100% !important; ">
 						</div>
 						<div class="col-xs-9 col-sm-9 " style="height: 40px;  margin-left: -20px;">
 							<div class="row">
@@ -96,7 +117,7 @@
 									<label class="pull-left name-user-video">{{publication.author}}</label>
 								</div>
 								<div class="col-xs-12 col-sm-12">
-									<label class="pull-left name-local-video" style="margin-top: -6px;">João Pessoa - PB</label>
+									<label class="pull-left name-local-video" style="margin-top: -6px;">{{displayLocation(publication.location.lat, publication.location.long)}}</label>
 								</div>
 							</div>
 						</div>
@@ -158,7 +179,7 @@
 				<div class="col-xs-9 col-sm-9 pull-left">
 					<div class="row">
 						<div class="col-xs-3 col-sm-3" style="width: 60px;height: 30px;">
-							<img src="https://scontent-gru2-1.xx.fbcdn.net/v/t1.0-9/10665058_693202724089887_6386121323748717293_n.jpg?oh=15efbfc4ee0a5fc8c01b57405baa86c0&oe=579A83A3" class="img-responsive img-circle pull-left" alt="Cinque Terre" style="width: 100% !important; height: 100% !important; ">
+							<img src="{{displayLocation(publication.location.lat, publication.location.long)}}" class="img-responsive img-circle pull-left" alt="Cinque Terre" style="width: 100% !important; height: 100% !important; ">
 						</div>
 						<div class="col-xs-9 col-sm-9 " style="height: 40px;  margin-left: -20px;">
 							<div class="row">
@@ -166,7 +187,7 @@
 									<label class="pull-left name-user-video2">{{publication.author}}</label>
 								</div>
 								<div class="col-xs-12 col-sm-12">
-									<label class="pull-left name-local-video2" style="margin-top: -6px;">João Pessoa - PB</label>
+									<label class="pull-left name-local-video2" style="margin-top: -6px;">{{displayLocation(publication.location.lat, publication.location.long)}}</label>
 								</div>
 							</div>
 						</div>
